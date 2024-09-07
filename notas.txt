@@ -1,0 +1,55 @@
+{% for product in products %}
+    <div class="product-carrito">
+            <img src="{{product.imagen}}" alt="{{product.nombre}}">
+            <h3>{{product.nombre}}</h3>
+            <div class="price">{{product.precio}} &#8364;</div>
+            <button>-</button>
+            <div class="cantidad">1</div>
+            <button>+</button>
+    </div>
+{% endfor %}
+
+
+<div class="product-carrito">
+            <img src="{{product.imagen}}" alt="{{product.nombre}}">
+            <h3>{{product.nombre}}</h3>
+            <div class="price">{{product.precio}} &#8364;</div>
+            <button class="menos-{{product.num}}" >-</button>
+            <div class="cantidad-{{product.num}}" 
+            _="on mutation of me's innerHTML 
+                if me's innerHTML is '1' 
+                then disable the closest <button.menos-{{product.num}}/> in my parent">{{product.cantidad}}</div>
+            <button class="mas">+</button>
+    </div>
+
+
+    add @disabled to me
+
+    _="on click call alert('You clicked me!')"
+
+
+Copia de seguridad de carrito 1/09/2024
+
+{%extends 'nav.html'%}
+{%block content%}
+<div class="contenedor-carrito">
+    {% for product in products %}
+    <div class="product-carrito">
+            <img src="{{product.imagen}}" alt="{{product.nombre}}">
+            <h3>{{product.nombre}}</h3>
+            <div class="price">{{product.precio}} &#8364;</div>
+            <button hx-get="/quitar-producto/{{product.id}}" hx-target="#cant-{{product.num}}" class="menos" id="menos-{{product.num}}"  {{product.disabled}}>-</button>
+            <div class="cantidad-{{product.num}}" id="cant-{{product.num}}" 
+                _="on mutation of anything if my innerHTML is '1' add @disabled to #menos-{{product.num}} else remove @disabled from #menos-{{product.num}}"
+            >{{product.cantidad}}</div>
+            <button class="mas" hx-get="/add-producto/{{product.id}}" hx-target="#cant-{{product.num}}" id="mas-{{product.num}}" _="on click fetch /actualizar-precio then put the result into .total">+</button>
+            <button hx-get="/carrito" hx-target="html">botonReset</button>
+    </div>
+    {% endfor %}
+    <div class="total">
+        <h3>Total:</h3>
+        <div class="price">{{total}} &#8364;</div>
+</div>
+{%endblock%}
+
+_="on click wait 3s then trigger closeModal on #modal"
